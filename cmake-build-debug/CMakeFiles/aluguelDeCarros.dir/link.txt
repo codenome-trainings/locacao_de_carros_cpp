@@ -1,0 +1,1 @@
+/usr/bin/c++   -g   CMakeFiles/aluguelDeCarros.dir/main.cpp.o  -o aluguelDeCarros 

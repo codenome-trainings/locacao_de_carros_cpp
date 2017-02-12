@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/thiago/CLionProjects/aluguelDeCarros/main.cpp
+iostream
+-
+stdio_ext.h
+-
+string.h
+-
+

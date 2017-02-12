@@ -76,15 +76,16 @@ void armazenaClienteNoPonteiro(int i);
 void buscaClienteParaLocarUmCarro();
 void buscaCarroParaSerAlugado();
 void armazenaPonteiroDoCarro(int i);
-
 void contaIdAluguel();
-
 void contaQtdDeAlgueis();
+void relatorioDeClientesComCarrosAlugados();
+void listarCarrosAlugados();
 
 int main() {
     menu();
     return 0;
 }
+
 void menu() {
     cout << "---------------------------------" << endl;
     cout << "----------MENU PRINCIPAL---------" << endl;
@@ -93,6 +94,7 @@ void menu() {
     char escolha = ' ';
     cout << "1. Cliente" << endl;
     cout << "2. Carro" << endl;
+    cout << "3. Aluguel" << endl;
     cout << "0. Sair" << endl;
     cout << "Digite uma opção: ";
     cin >> escolha;
@@ -105,8 +107,11 @@ void menu() {
         case '2':
             menuCarro();
             break;
+        case '3':
+            menuAluguel();
+            break;
         default:
-            cout << "Opção inválida! Tente novamente...";
+            cout << "Opção inválida! Tente novamente..." << endl;
     }
     menu();
 }
@@ -419,9 +424,6 @@ void armazenaPonteiroDoCarro(int i) {
 }
 
 void listaCarros() {
-    cout << "----------------------------------" << endl;
-    cout << "----------LISTA DE CARROS---------" << endl;
-    cout << "----------------------------------" << endl;
 
     for (int i = 0; i < qtd_carros; i++) {
         cout << "ID:" << carros[i].id << endl;
@@ -506,6 +508,7 @@ void menuAluguel() {
     cout << "1. Alugar um carro" << endl;
     cout << "2. Dar baixa em um carro" << endl;
     cout << "3. Ver todos os clientes com carros alugados" << endl;
+    cout << "4. Listar todos os carros alugados" << endl;
     cout << "0. Voltar" << endl;
     cout << "Digite uma opção: ";
     __fpurge(stdin);
@@ -530,6 +533,44 @@ void menuAluguel() {
         default:
             cout << "Opção inválida! Tente novamente ..." << endl;
     }
+    menuAluguel();
+}
+
+void listarCarrosAlugados() {
+    for (int i = 0; i < qtd_carros; ++i) {
+        if(carros[i].status == true) {
+            cout << "ID:" << carros[i].id << endl;
+            cout << "NOME: " << carros[i].nome << endl;
+            cout << "ANO: " << carros[i].ano.ano << endl;
+            cout << "VALOR: R$ " << carros[i].valor << endl;
+            cout << "STATUS: Alugado" << endl;
+            cout << endl;
+            cout << "---" << endl;
+            cout << endl;
+        }
+    }
+    cout << "Carros alugados listados com sucesso!" << endl;
+    cout << "Pressione qualquer tecla para continuar...";
+    __fpurge(stdin);
+    getchar();
+    menuAluguel();
+}
+
+void relatorioDeClientesComCarrosAlugados() {
+
+    for (int i = 0; i < qtd_alugueis; ++i) {
+        cout << "ID DO CLIENTE: " << alugueis[i].cliente.id << endl;
+        cout << "CLIENTE: " << alugueis[i].cliente.nome << endl;
+        cout << "ID DO CARRO: " << alugueis[i].carro.id << endl;
+        cout << "CARRO ALUGADO: " << alugueis[i].carro.nome << endl;
+        cout << "VALOR: " << alugueis[i].carro.valor << endl;
+        cout << endl << "---" << endl;
+    }
+
+    cout << "Clientes que alugaram carros listados com sucesso!" << endl;
+    cout << "Pressione qualquer tecla para continuar...";
+    __fpurge(stdin);
+    getchar();
     menuAluguel();
 }
 
@@ -599,7 +640,7 @@ void buscaCarroParaSerAlugado() {
 
         buscarCarro();
         __fpurge(stdin);
-        cout << "Deseja usar este carro para ser alugado? [1] SIM | [0] NÃO (Buscar outro cliente): ";
+        cout << "Deseja usar este carro para ser alugado? [1] SIM | [0] NÃO (Buscar outro carro): ";
         cin >> escolha;
 
         if (escolha == true) {

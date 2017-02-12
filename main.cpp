@@ -64,7 +64,9 @@ void contaQtdDeClientes();
 void localizaCliente(int i);
 void buscaPorIdCliente();
 void buscaPorCpfDoCliente();
+void desejaPesquisarClienteNovamente();
 void menuCarro();
+bool verificaSeCarroEstaDisponivel(bool status);
 void cadastrarCarro();
 void contaIdDosCarros();
 void contaQtdDosCarros();
@@ -100,7 +102,7 @@ void menu() {
     cin >> escolha;
     switch (escolha) {
         case '0':
-            return;
+            exit(0);
         case '1':
             menuCliente();
             break;
@@ -218,10 +220,12 @@ void buscaPorCpfDoCliente() {
 
     if (encontrou == false) {
         cout << "Cliente não encontrado!" << endl;
+        desejaPesquisarClienteNovamente();
     }
 }
 
 void buscaPorIdCliente() {
+
 
     bool encontrou = false;
     int id_cliente = 0;
@@ -242,7 +246,31 @@ void buscaPorIdCliente() {
 
     if (encontrou == false) {
         cout << "Cliente não encontrado!" << endl;
+        desejaPesquisarClienteNovamente();
     }
+}
+
+void desejaPesquisarClienteNovamente() {
+    cout << "Deseja pesquisar novamente?" << endl;
+    cout << "[1] SIM" << endl;
+    cout << "[2] NÃO (Volta ao menu de clientes)" << endl;
+    cout << "[3] Desejo cadastrar um novo cliente" << endl;
+    char escolha = ' ';
+    __fpurge(stdin);
+    cout << "Digite uma das opções: ";
+    cin >> escolha;
+
+    if (escolha == '1') {
+        buscarCliente();
+    } else if (escolha == '2') {
+        menuCliente();
+    } else if(escolha == '3') {
+        cadastrarCliente();
+    } else {
+        cout << "Opção inválida! Tente novamente ..." << endl;
+    }
+
+    desejaPesquisarClienteNovamente();
 }
 
 void localizaCliente(int i) {
@@ -370,7 +398,14 @@ void buscarCarro() {
     cin >> id_carro;
 
     for (int i = 0; i < qtd_carros; ++i) {
+
+        //Verifica se o carro existe!
         if(id_carro == carros[i].id) {
+
+            if (verificaSeCarroEstaDisponivel(carros[i].status) != true) {
+                break;
+            }
+
             cout << endl;
             cout << endl;
             cout << "Carro encontrado com sucesso!" << endl;
@@ -396,6 +431,30 @@ void buscarCarro() {
             menuCarro();
         }
     }
+}
+
+bool verificaSeCarroEstaDisponivel(bool status) {
+
+    if (status == true) {
+
+        cout << "Este carro [NÃO] está disponível para locação." << endl;
+
+        cout << "Deseja buscar outro carro? [1] SIM | [2] NÃO (Volta ao menu de carro) - ";
+        char escolha = ' ';
+        __fpurge(stdin);
+        cout << "Digite uma opção: ";
+        cin >> escolha;
+
+        if (escolha == '1') {
+            buscarCarro();
+        } else {
+            menuCarro();
+        }
+    } else {
+        cout << "Carro disponivel para locação." << endl;
+    }
+
+    return true;
 }
 
 void localizaCarro(int i) {
